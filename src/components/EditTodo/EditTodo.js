@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function EditTodo(props) {
-  const [text, setText] = useState(props.todo.text);
+  const [text, setText] = useState(props.todo.data().text);
 
   function handleUpdate(evt) {
     evt.preventDefault();

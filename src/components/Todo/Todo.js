@@ -35,7 +35,7 @@ function Todo(props) {
   return (
     <ListItem
       key={todo.id}
-      completed={todo.completed}
+      completed={todo.data().completed}
       selected={props.selected}
     >
       {showEdit ? (
@@ -45,7 +45,7 @@ function Todo(props) {
           onCancel={() => setShowEdit(false)}
         />
       ) : (
-        <span onClick={() => setShowEdit(true)}>{todo.text}</span>
+        <span onClick={() => setShowEdit(true)}>{todo.data().text}</span>
       )}
     </ListItem>
   );

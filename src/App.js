@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import uuid from "uuid/v4";
 import styled, { createGlobalStyle } from "styled-components";
+import db from "./db";
 import Todos from "./components/Todos";
 import TodoForm from "./components/TodoForm";
 
@@ -20,26 +21,30 @@ const Container = styled.div`
 `;
 
 function App() {
-  const [todos, setTodos] = useState([
-    { id: 1, text: "Hola", completed: false },
-    { id: 2, text: "sup?", completed: false }
-  ]);
+  const [todos, setTodos] = useState([]);
+  useEffect(() => {
+    const unsubscribe = db
+      .collection("todos")
+      .onSnapshot(snapshot => setTodos(snapshot.docs));
+    return unsubscribe;
+  }, []);
 
   function handleCreateTodo(text) {
-    todos.push({ id: uuid(), text, completed: false });
-    setTodos(todos);
+    db.collection("todos")
+      .doc(uuid())
+      .set({ text, completed: false });
   }
 
   function completeTodo(todo) {
-    const selectedTodo = todos.find(t => t.id === todo.id);
-    selectedTodo.completed = !selectedTodo.completed;
-    setTodos(todos);
+    db.collection("todos")
+      .doc(todo.id)
+      .update({ completed: true });
   }
 
   function handleUpdateText(todo, text) {
-    const selectedTodo = todos.find(t => t.id === todo.id);
-    selectedTodo.text = text;
-    setTodos(todos);
+    db.collection("todos")
+      .doc(todo.id)
+      .update({ text });
   }
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -64,7 +69,7 @@ function App() {
     [selectedIndex, todos]
   );
 
-  const pending = todos.filter(todo => !todo.completed);
+  const pending = todos.filter(todo => !todo.data().completed);
 
   return (
     <Container>
