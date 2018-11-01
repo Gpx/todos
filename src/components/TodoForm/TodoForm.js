@@ -20,14 +20,16 @@ const Button = styled.button.attrs({ type: "submit" })`
 function TodoForm(props) {
   const [todoText, setTodoText] = useState("");
 
+  const inputEl = useRef(null);
+
   function handleCreateTodo(evt) {
     evt.preventDefault();
     if (todoText.trim() === "") return;
     props.onCreateTodo(todoText);
     setTodoText("");
+    inputEl.current.blur();
   }
 
-  const inputEl = useRef(null);
   useEffect(() => {
     function handleKeyPress(evt) {
       if (evt.key !== "a" || evt.target !== document.body) return;
