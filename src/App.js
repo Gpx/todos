@@ -33,13 +33,19 @@ function App() {
   function handleCreateTodo(text) {
     db.collection("todos")
       .doc(uuid())
-      .set({ text, completed: false, createdAt: new Date() });
+      .set({ text, completed: false, deleted: false, createdAt: new Date() });
   }
 
   function completeTodo(todo) {
     db.collection("todos")
       .doc(todo.id)
       .update({ completed: true });
+  }
+
+  function deleteTodo(todo) {
+    db.collection("todos")
+      .doc(todo.id)
+      .update({ deleted: true });
   }
 
   function handleUpdateText(todo, text) {
@@ -70,7 +76,9 @@ function App() {
     [selectedIndex, todos]
   );
 
-  const pending = todos.filter(todo => !todo.data().completed);
+  const pending = todos.filter(
+    todo => !todo.data().completed && !todo.data().deleted
+  );
 
   return (
     <Container>
@@ -80,6 +88,7 @@ function App() {
         todos={pending}
         selectedIndex={selectedIndex}
         onComplete={completeTodo}
+        onDelete={deleteTodo}
         onUpdateText={handleUpdateText}
       />
       <TodoForm onCreateTodo={handleCreateTodo} />

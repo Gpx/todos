@@ -21,6 +21,7 @@ function Todos(props) {
           todo={todo}
           selected={props.selectedIndex === index}
           onComplete={() => props.onComplete(todo)}
+          onDelete={() => props.onDelete(todo)}
           onUpdate={text => props.onUpdateText(todo, text)}
         />
       ))}

@@ -22,8 +22,9 @@ function Todo(props) {
   useEffect(
     () => {
       function handleKeyPress(evt) {
-        if (evt.key !== "y" || evt.target !== document.body) return;
-        props.onComplete();
+        if (evt.target !== document.body) return;
+        if (evt.key === "y") props.onComplete();
+        if (evt.key === "#") props.onDelete();
       }
       if (props.selected) document.addEventListener("keyup", handleKeyPress);
 
