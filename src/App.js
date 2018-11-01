@@ -25,6 +25,7 @@ function App() {
   useEffect(() => {
     const unsubscribe = db
       .collection("todos")
+      .orderBy("createdAt", "asc")
       .onSnapshot(snapshot => setTodos(snapshot.docs));
     return unsubscribe;
   }, []);
@@ -32,7 +33,7 @@ function App() {
   function handleCreateTodo(text) {
     db.collection("todos")
       .doc(uuid())
-      .set({ text, completed: false });
+      .set({ text, completed: false, createdAt: new Date() });
   }
 
   function completeTodo(todo) {
