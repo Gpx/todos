@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import EditTodo from "../EditTodo";
 
@@ -33,11 +33,25 @@ function Todo(props) {
     [props.selected]
   );
 
+  const selfEl = useRef(null);
+  useEffect(
+    () => {
+      if (!props.selected) return;
+      selfEl.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "nearest"
+      });
+    },
+    [props.selected]
+  );
+
   return (
     <ListItem
       key={todo.id}
       completed={todo.data().completed}
       selected={props.selected}
+      ref={selfEl}
     >
       {showEdit ? (
         <EditTodo
