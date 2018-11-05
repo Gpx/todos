@@ -14,16 +14,14 @@ const GlobalStyle = createGlobalStyle`
     background-color: #455d7a;
     background-image: url(${p => p.background});
     background-size: cover;
-    height: 100vh;
-    width: 100vw;
+    background-repeat: no-repeat;
+    background-position: center;
     color: #fff;
   }
 `;
 
 const Container = styled.div`
   width: 40vw;
-  max-height: 100vh;
-  overflow-y: scroll;
   margin: auto;
   background: rgba(35, 49, 66, 0.6);
   padding: 16px 32px;
