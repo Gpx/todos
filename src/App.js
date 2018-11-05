@@ -22,6 +22,8 @@ const GlobalStyle = createGlobalStyle`
 
 const Container = styled.div`
   width: 40vw;
+  max-height: 100vh;
+  overflow-y: scroll;
   margin: auto;
   background: rgba(35, 49, 66, 0.6);
   padding: 16px 32px;
