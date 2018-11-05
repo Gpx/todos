@@ -5,13 +5,14 @@ import { throttle } from "lodash";
 import db from "./db";
 import Todos from "./components/Todos";
 import TodoForm from "./components/TodoForm";
+import BackgroundCourtesy from "./components/BackgroundCourtesy";
 
 const UNSPLASH_KEY =
   "d5fc56aca800600ffae7a2cd04be7ee6bb1a7baee5967b578c4ac55112b0aa19";
 
 const GlobalStyle = createGlobalStyle`
   body{
-    background-color: #455d7a;
+    background-color: ${p => p.color || "#455d7a"};
     background-image: url(${p => p.background});
     background-size: cover;
     background-repeat: no-repeat;
@@ -109,7 +110,11 @@ function App() {
 
   return (
     <Container>
-      <GlobalStyle background={background && background.urls.full} />
+      <GlobalStyle
+        background={background && background.urls.full}
+        color={background && background.color}
+      />
+      <BackgroundCourtesy background={background} />
       You have {todos.length} todos left
       <Todos
         todos={todos}
