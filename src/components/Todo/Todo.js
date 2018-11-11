@@ -46,6 +46,23 @@ function Todo(props) {
     [props.selected]
   );
 
+  function parseText(text) {
+    const tags = text.match(/#[^\s]+/gi);
+    if (!tags) return text;
+
+    const r = text.split(/\s/).map(
+      (part, i) =>
+        tags.includes(part) ? (
+          <React.Fragment key={i}>
+            <b>{part}</b>{" "}
+          </React.Fragment>
+        ) : (
+          part + " "
+        )
+    );
+    return r;
+  }
+
   return (
     <ListItem
       key={todo.id}
@@ -60,7 +77,9 @@ function Todo(props) {
           onCancel={() => setShowEdit(false)}
         />
       ) : (
-        <span onClick={() => setShowEdit(true)}>{todo.data().text}</span>
+        <span onClick={() => setShowEdit(true)}>
+          {parseText(todo.data().text)}
+        </span>
       )}
     </ListItem>
   );
