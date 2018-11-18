@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import firebase from "firebase/app";
+import "firebase/auth";
 import uuid from "uuid/v4";
 import styled, { createGlobalStyle } from "styled-components";
 import { throttle } from "lodash";
@@ -6,6 +8,7 @@ import db from "./db";
 import Todos from "./components/Todos";
 import TodoForm from "./components/TodoForm";
 import BackgroundCourtesy from "./components/BackgroundCourtesy";
+import Login from "./components/Login";
 
 const UNSPLASH_KEY =
   "d5fc56aca800600ffae7a2cd04be7ee6bb1a7baee5967b578c4ac55112b0aa19";
@@ -108,6 +111,15 @@ function App() {
       else setBackground(photo);
     } else fetchNewBackground();
   }, []);
+
+  const [userState, setUserState] = useState("INITIAL");
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) setUserState("LOGGED");
+      else setUserState("ANONYMOUS");
+    });
+  }, []);
+  if (userState === "ANONYMOUS") return <Login />;
 
   return (
     <Container>
